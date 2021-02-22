@@ -396,8 +396,6 @@ class Choices {
   }
 
   unhighlightItem(item: Item): this {
-    console.log('unhighlight');
-    console.log(item);
     if (!item || !item.id) {
       return this;
     }
@@ -1059,7 +1057,10 @@ class Choices {
       return;
     }
 
+    console.log(this.config.removeItems);
+
     const passedId = element.dataset.id;
+    console.log(passedId);
 
     // We only want to select one item with a click
     // so we deselect any items that aren't the target
@@ -1716,6 +1717,8 @@ class Choices {
       const hasShiftKey = event.shiftKey;
       const { activeItems } = this._store;
       const { dataset } = item;
+
+      console.log(activeItems, item, hasShiftKey);
 
       if ('button' in dataset) {
         this._handleButtonAction(activeItems, item);
