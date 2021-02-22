@@ -11,7 +11,7 @@ export interface AddChoiceAction {
   elementId: number;
   customProperties: object;
   placeholder: boolean;
-  keyCode: number;
+  keyCode: string;
 }
 
 export interface Result<T> {

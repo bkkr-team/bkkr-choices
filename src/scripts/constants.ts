@@ -111,15 +111,17 @@ export const ACTION_TYPES: Record<ActionType, ActionType> = {
 };
 
 export const KEY_CODES: KeyCodeMap = {
-  BACK_KEY: 46,
-  DELETE_KEY: 8,
-  ENTER_KEY: 13,
-  A_KEY: 65,
-  ESC_KEY: 27,
-  UP_KEY: 38,
-  DOWN_KEY: 40,
-  PAGE_UP_KEY: 33,
-  PAGE_DOWN_KEY: 34,
+  BACK_KEY: 'Backspace',
+  DELETE_KEY: 'Delete',
+  ENTER_KEY: 'Enter',
+  A_KEY: 'KeyA',
+  ESC_KEY: 'Escape',
+  UP_KEY: 'ArrowUp',
+  DOWN_KEY: 'ArrowDown',
+  LEFT_KEY: 'ArrowLeft',
+  RIGHT_KEY: 'ArrowRight',
+  PAGE_UP_KEY: 'PageUp',
+  PAGE_DOWN_KEY: 'PageDown',
 };
 
 export const TEXT_TYPE: HTMLInputElement['type'] = 'text';

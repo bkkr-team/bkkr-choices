@@ -139,14 +139,16 @@ describe('constants', () => {
           'ESC_KEY',
           'UP_KEY',
           'DOWN_KEY',
+          'LEFT_KEY',
+          'RIGHT_KEY',
           'PAGE_UP_KEY',
           'PAGE_DOWN_KEY',
         ]);
       });
 
-      it('exports each value as a number', () => {
+      it('exports each value as a string', () => {
         Object.keys(KEY_CODES).forEach(key => {
-          expect(KEY_CODES[key]).to.be.a('number');
+          expect(KEY_CODES[key]).to.be.a('string');
         });
       });
     });

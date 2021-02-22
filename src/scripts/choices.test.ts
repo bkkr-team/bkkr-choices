@@ -2093,10 +2093,10 @@ describe('choices', () => {
           KEY_CODES.PAGE_DOWN_KEY,
         ];
 
-        keyCodes.forEach(keyCode => {
+        keyCodes.forEach(code => {
           it(`calls _onDirectionKey with the expected arguments`, () => {
             const event = {
-              keyCode,
+              code,
             };
 
             instance._onKeyDown(event);
@@ -2112,7 +2112,7 @@ describe('choices', () => {
       describe('select key', () => {
         it(`calls _onSelectKey with the expected arguments`, () => {
           const event = {
-            keyCode: KEY_CODES.A_KEY,
+            code: KEY_CODES.A_KEY,
           };
 
           instance._onKeyDown(event);
@@ -2127,7 +2127,7 @@ describe('choices', () => {
       describe('enter key', () => {
         it(`calls _onEnterKey with the expected arguments`, () => {
           const event = {
-            keyCode: KEY_CODES.ENTER_KEY,
+            code: KEY_CODES.ENTER_KEY,
           };
 
           instance._onKeyDown(event);
@@ -2143,10 +2143,10 @@ describe('choices', () => {
       describe('delete key', () => {
         const keyCodes = [KEY_CODES.DELETE_KEY, KEY_CODES.BACK_KEY];
 
-        keyCodes.forEach(keyCode => {
+        keyCodes.forEach(code => {
           it(`calls _onDeleteKey with the expected arguments`, () => {
             const event = {
-              keyCode,
+              code,
             };
 
             instance._onKeyDown(event);

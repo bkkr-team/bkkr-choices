@@ -18,7 +18,7 @@ describe('reducers/items', () => {
         property: 'value',
       };
       const placeholder = true;
-      const keyCode = 10;
+      const keyCode = '';
 
       describe('passing expected values', () => {
         let actualResponse;

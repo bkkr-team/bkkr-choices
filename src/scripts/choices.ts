@@ -1397,13 +1397,12 @@ class Choices {
   }
 
   _onKeyDown(event: KeyboardEvent): void {
-    const { keyCode } = event;
+    const { code, key } = event;
     const { activeItems } = this._store;
     const hasFocusedInput = this.input.isFocussed;
     const hasActiveDropdown = this.dropdown.isActive;
     const hasItems = this.itemList.hasChildren();
-    const keyString = String.fromCharCode(keyCode);
-    const wasAlphaNumericChar = /[a-zA-Z0-9-_ ]/.test(keyString);
+    const wasAlphaNumericChar = /[a-zA-Z0-9-_ ]/.test(key);
 
     const {
       BACK_KEY,
@@ -1426,11 +1425,11 @@ class Choices {
           the input was not focussed at the time of key press
           therefore does not have the value of the key.
         */
-        this.input.value += keyString.toLowerCase();
+        this.input.value += key.toLowerCase();
       }
     }
 
-    switch (keyCode) {
+    switch (code) {
       case A_KEY:
         return this._onSelectKey(event, hasItems);
       case ENTER_KEY:
@@ -1449,10 +1448,7 @@ class Choices {
     }
   }
 
-  _onKeyUp({
-    target,
-    keyCode,
-  }: Pick<KeyboardEvent, 'target' | 'keyCode'>): void {
+  _onKeyUp({ target, code }: Pick<KeyboardEvent, 'target' | 'code'>): void {
     const { value } = this.input;
     const { activeItems } = this._store;
     const canAddItem = this._canAddItem(activeItems, value);
@@ -1471,7 +1467,7 @@ class Choices {
         this.hideDropdown(true);
       }
     } else {
-      const wasRemovalKeyCode = keyCode === backKey || keyCode === deleteKey;
+      const wasRemovalKeyCode = code === backKey || code === deleteKey;
       const userHasRemovedValue =
         wasRemovalKeyCode && target && !(target as HTMLSelectElement).value;
       const canReactivateChoices = !this._isTextElement && this._isSearching;
@@ -1562,7 +1558,7 @@ class Choices {
   }
 
   _onDirectionKey(event: KeyboardEvent, hasActiveDropdown: boolean): void {
-    const { keyCode, metaKey } = event;
+    const { code, metaKey } = event;
     const {
       DOWN_KEY: downKey,
       PAGE_UP_KEY: pageUpKey,
@@ -1574,10 +1570,8 @@ class Choices {
       this.showDropdown();
       this._canSearch = false;
 
-      const directionInt =
-        keyCode === downKey || keyCode === pageDownKey ? 1 : -1;
-      const skipKey =
-        metaKey || keyCode === pageDownKey || keyCode === pageUpKey;
+      const directionInt = code === downKey || code === pageDownKey ? 1 : -1;
+      const skipKey = metaKey || code === pageDownKey || code === pageUpKey;
       const selectableChoiceIdentifier = '[data-choice-selectable]';
 
       let nextEl;
@@ -1903,7 +1897,7 @@ class Choices {
     groupId = -1,
     customProperties = {},
     placeholder = false,
-    keyCode = -1,
+    keyCode = '',
   }: {
     value: string;
     label?: string | null;
@@ -1911,7 +1905,7 @@ class Choices {
     groupId?: number;
     customProperties?: object;
     placeholder?: boolean;
-    keyCode?: number;
+    keyCode?: string;
   }): void {
     let passedValue = typeof value === 'string' ? value.trim() : value;
 
@@ -1986,7 +1980,7 @@ class Choices {
     groupId = -1,
     customProperties = {},
     placeholder = false,
-    keyCode = -1,
+    keyCode = '',
   }: {
     value: string;
     label?: string | null;
@@ -1995,7 +1989,7 @@ class Choices {
     groupId?: number;
     customProperties?: Record<string, any>;
     placeholder?: boolean;
-    keyCode?: number;
+    keyCode?: string;
   }): void {
     if (typeof value === 'undefined' || value === null) {
       return;

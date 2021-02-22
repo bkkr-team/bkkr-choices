@@ -9,7 +9,7 @@ export interface AddItemAction {
   groupId: number;
   customProperties: object;
   placeholder: boolean;
-  keyCode: number;
+  keyCode: string;
 }
 
 export interface RemoveItemAction {
@@ -41,7 +41,7 @@ export const addItem = ({
   groupId: number;
   customProperties: object;
   placeholder: boolean;
-  keyCode: number;
+  keyCode: string;
 }): AddItemAction => ({
   type: ACTION_TYPES.ADD_ITEM,
   value,

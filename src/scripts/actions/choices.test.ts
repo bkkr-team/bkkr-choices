@@ -12,7 +12,7 @@ describe('actions/choices', () => {
       const elementId = 1;
       const customProperties = { test: true };
       const placeholder = true;
-      const keyCode = 10;
+      const keyCode = '';
 
       const expectedAction: actions.AddChoiceAction = {
         type: 'ADD_CHOICE',

@@ -1,5 +1,5 @@
 {
-  "name": "choices.js",
+  "name": "bkkr-choices",
   "version": "9.0.1",
   "description": "A vanilla JS customisable text input/select box plugin",
   "main": "./public/assets/scripts/choices.js",
@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jshjohnson/Choices.git"
+    "url": "git+https://github.com/bkkr-team/bkkr-choices.git"
   },
   "author": "Josh Johnson",
   "license": "MIT",
@@ -41,9 +41,9 @@
     "types"
   ],
   "bugs": {
-    "url": "https://github.com/jshjohnson/Choices/issues"
+    "url": "https://github.com/bkkr-team/bkkr-choicesissues"
   },
-  "homepage": "https://github.com/jshjohnson/Choices#readme",
+  "homepage": "https://github.com/bkkr-team/bkkr-choices#readme",
   "keywords": [
     "customisable",
     "input",
@@ -104,7 +104,7 @@
     "fuse.js": "^3.4.6",
     "redux": "^4.0.4"
   },
-  "npmName": "choices.js",
+  "npmName": "bkkr-choices",
   "npmFileMap": [
     {
       "files": [

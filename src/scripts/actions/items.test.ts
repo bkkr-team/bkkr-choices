@@ -11,7 +11,7 @@ describe('actions/items', () => {
       const groupId = 1;
       const customProperties = { test: true };
       const placeholder = true;
-      const keyCode = 10;
+      const keyCode = '';
 
       const expectedAction: actions.AddItemAction = {
         type: 'ADD_ITEM',
