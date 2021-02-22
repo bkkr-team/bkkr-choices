@@ -1478,7 +1478,7 @@ class Choices {
       }
     } else {
       const wasRemovalKeyCode = code === backKey || code === deleteKey;
-      const wasNavigatioKeyCode =
+      const wasNavigationKeyCode =
         code === upKey ||
         code === downKey ||
         code === leftKey ||
@@ -1486,7 +1486,8 @@ class Choices {
         code === pageUpKey ||
         code === pageDownKey;
       const wasSpecialKey =
-        wasRemovalKeyCode || wasNavigatioKeyCode || code === escKey;
+        wasRemovalKeyCode || wasNavigationKeyCode || code === escKey;
+      console.log(wasSpecialKey);
       const userHasRemovedValue =
         wasRemovalKeyCode && target && !(target as HTMLSelectElement).value;
       const canReactivateChoices = !this._isTextElement && this._isSearching;
