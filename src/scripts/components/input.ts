@@ -1,5 +1,5 @@
 import { sanitise } from '../lib/utils';
-import { SELECT_ONE_TYPE } from '../constants';
+import { SELECT_ONE_TYPE, SELECT_MULTIPLE_TYPE } from '../constants';
 import { PassedElement, ClassNames } from '../interfaces';
 
 export default class Input {
@@ -120,7 +120,7 @@ export default class Input {
   }
 
   _onInput(): void {
-    if (this.type !== SELECT_ONE_TYPE) {
+    if (this.type !== SELECT_ONE_TYPE || this.type !== SELECT_MULTIPLE_TYPE) {
       this.setWidth();
     }
   }
