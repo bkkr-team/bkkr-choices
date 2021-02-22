@@ -1660,6 +1660,9 @@ function () {
   };
 
   Choices.prototype.unhighlightItem = function (item) {
+    console.log('unhighlight');
+    console.log(item);
+
     if (!item || !item.id) {
       return this;
     }
@@ -2429,11 +2432,6 @@ function () {
 
       this._triggerChange(lastItem.value);
     } else {
-      if (!hasHighlightedItems) {
-        // Highlight last item if none already highlighted
-        this.highlightItem(lastItem, false);
-      }
-
       this.removeHighlightedItems(true);
     }
   };
@@ -2732,7 +2730,6 @@ function () {
       var wasRemovalKeyCode = code === backKey || code === deleteKey;
       var wasNavigationKeyCode = code === upKey || code === downKey || code === leftKey || code === rightKey || code === pageUpKey || code === pageDownKey;
       var wasSpecialKey = wasRemovalKeyCode || wasNavigationKeyCode || code === escKey;
-      console.log(wasSpecialKey);
       var userHasRemovedValue = wasRemovalKeyCode && target && !target.value;
       var canReactivateChoices = !this._isTextElement && this._isSearching;
       var canSearch = this._canSearch && canAddItem.response;

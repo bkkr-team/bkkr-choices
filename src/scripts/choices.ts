@@ -396,6 +396,8 @@ class Choices {
   }
 
   unhighlightItem(item: Item): this {
+    console.log('unhighlight');
+    console.log(item);
     if (!item || !item.id) {
       return this;
     }
@@ -1143,10 +1145,6 @@ class Choices {
       this._removeItem(lastItem);
       this._triggerChange(lastItem.value);
     } else {
-      if (!hasHighlightedItems) {
-        // Highlight last item if none already highlighted
-        this.highlightItem(lastItem, false);
-      }
       this.removeHighlightedItems(true);
     }
   }
@@ -1488,7 +1486,6 @@ class Choices {
         code === pageDownKey;
       const wasSpecialKey =
         wasRemovalKeyCode || wasNavigationKeyCode || code === escKey;
-      console.log(wasSpecialKey);
       const userHasRemovedValue =
         wasRemovalKeyCode && target && !(target as HTMLSelectElement).value;
       const canReactivateChoices = !this._isTextElement && this._isSearching;
