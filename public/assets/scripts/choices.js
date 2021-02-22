@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.5 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! bkkr-choices v10.0.1-beta.6 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -4755,7 +4755,7 @@ function () {
 
   Input.prototype.clear = function (setWidth) {
     if (setWidth === void 0) {
-      setWidth = true;
+      setWidth = this.type === constants_1.TEXT_TYPE;
     }
 
     if (this.element.value) {
@@ -4793,7 +4793,7 @@ function () {
   };
 
   Input.prototype._onInput = function () {
-    if (this.type !== constants_1.SELECT_ONE_TYPE || this.type !== constants_1.SELECT_MULTIPLE_TYPE) {
+    if (this.type === constants_1.TEXT_TYPE) {
       this.setWidth();
     }
   };
