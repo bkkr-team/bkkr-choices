@@ -1083,7 +1083,7 @@ class Choices {
     // If we are clicking on an option
     const { id } = element.dataset;
     const choice = id && this._store.getChoiceById(id);
-    if (!choice) {
+    if (!choice || choice.disabled) {
       return;
     }
 
@@ -1100,7 +1100,7 @@ class Choices {
       choice,
     });
 
-    if (!choice.selected && !choice.disabled) {
+    if (!choice.selected) {
       const canAddItem = this._canAddItem(activeItems, choice.value);
 
       if (canAddItem.response) {
@@ -1116,8 +1116,10 @@ class Choices {
 
         this._triggerChange(choice.value);
       }
-    } else if (choice.selected && !choice.disabled) {
-      this._removeItem(choice);
+    } else {
+      this._store.activeItems
+        .filter(item => item.id === choice.id)
+        .forEach(item => this._removeItem(item));
       this._triggerChange(choice.value);
     }
 
