@@ -1117,16 +1117,7 @@ class Choices {
         this._triggerChange(choice.value);
       }
     } else if (choice.selected && !choice.disabled) {
-      console.log('remove item');
-      this._removeItem({
-        value: choice.value,
-        label: choice.label,
-        choiceId: choice.id,
-        groupId: choice.groupId,
-        customProperties: choice.customProperties,
-        placeholder: choice.placeholder,
-        keyCode: choice.keyCode,
-      });
+      this._removeItem(choice);
       this._triggerChange(choice.value);
     }
 
@@ -1146,17 +1137,18 @@ class Choices {
 
     const lastItem = activeItems[activeItems.length - 1];
     const hasHighlightedItems = activeItems.some(item => item.highlighted);
-    console.log(hasHighlightedItems);
     // If editing the last item is allowed and there are not other selected items,
     // we can edit the item value. Otherwise if we can remove items, remove all selected items
     if (this.config.editItems && !hasHighlightedItems && lastItem) {
-      console.log('remove last');
       this.input.value = lastItem.value;
       this.input.setWidth();
       this._removeItem(lastItem);
       this._triggerChange(lastItem.value);
     } else {
-      console.log('remove all');
+      if (!hasHighlightedItems) {
+        // Highlight last item if none already highlighted
+        this.highlightItem(lastItem, false);
+      }
       this.removeHighlightedItems(true);
     }
   }
@@ -1423,14 +1415,27 @@ class Choices {
       ESC_KEY,
       UP_KEY,
       DOWN_KEY,
+      LEFT_KEY,
+      RIGHT_KEY,
       PAGE_UP_KEY,
       PAGE_DOWN_KEY,
     } = KEY_CODES;
 
+    const wasRemovalKeyCode = code === BACK_KEY || code === DELETE_KEY;
+    const wasNavigationKeyCode =
+      code === UP_KEY ||
+      code === DOWN_KEY ||
+      code === LEFT_KEY ||
+      code === RIGHT_KEY ||
+      code === PAGE_UP_KEY ||
+      code === PAGE_DOWN_KEY;
+    const wasSpecialKey =
+      wasRemovalKeyCode || wasNavigationKeyCode || code === ESC_KEY;
+
     if (!this._isTextElement && !hasActiveDropdown && wasAlphaNumericChar) {
       this.showDropdown();
 
-      if (!this.input.isFocussed) {
+      if (!this.input.isFocussed && !wasSpecialKey) {
         /*
           We update the input value with the pressed key as
           the input was not focussed at the time of key press
@@ -1464,15 +1469,15 @@ class Choices {
     const { activeItems } = this._store;
     const canAddItem = this._canAddItem(activeItems, value);
     const {
-      BACK_KEY: backKey,
-      DELETE_KEY: deleteKey,
-      ESC_KEY: escKey,
-      UP_KEY: upKey,
-      DOWN_KEY: downKey,
-      LEFT_KEY: leftKey,
-      RIGHT_KEY: rightKey,
-      PAGE_UP_KEY: pageUpKey,
-      PAGE_DOWN_KEY: pageDownKey,
+      BACK_KEY,
+      DELETE_KEY,
+      ESC_KEY,
+      UP_KEY,
+      DOWN_KEY,
+      LEFT_KEY,
+      RIGHT_KEY,
+      PAGE_UP_KEY,
+      PAGE_DOWN_KEY,
     } = KEY_CODES;
 
     // We are typing into a text input and have a value, we want to show a dropdown
@@ -1488,16 +1493,16 @@ class Choices {
         this.hideDropdown(true);
       }
     } else {
-      const wasRemovalKeyCode = code === backKey || code === deleteKey;
+      const wasRemovalKeyCode = code === BACK_KEY || code === DELETE_KEY;
       const wasNavigationKeyCode =
-        code === upKey ||
-        code === downKey ||
-        code === leftKey ||
-        code === rightKey ||
-        code === pageUpKey ||
-        code === pageDownKey;
+        code === UP_KEY ||
+        code === DOWN_KEY ||
+        code === LEFT_KEY ||
+        code === RIGHT_KEY ||
+        code === PAGE_UP_KEY ||
+        code === PAGE_DOWN_KEY;
       const wasSpecialKey =
-        wasRemovalKeyCode || wasNavigationKeyCode || code === escKey;
+        wasRemovalKeyCode || wasNavigationKeyCode || code === ESC_KEY;
       const userHasRemovedValue =
         wasRemovalKeyCode && target && !(target as HTMLSelectElement).value;
       const canReactivateChoices = !this._isTextElement && this._isSearching;
@@ -2283,8 +2288,6 @@ class Choices {
 
           const isSelected = shouldPreselect ? true : choice.selected;
           const isDisabled = choice.disabled;
-
-          console.log(isDisabled, choice);
 
           this._addChoice({
             value,

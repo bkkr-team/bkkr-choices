@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.12 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! bkkr-choices v10.0.1-beta.15 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2401,17 +2401,7 @@ function () {
         this._triggerChange(choice.value);
       }
     } else if (choice.selected && !choice.disabled) {
-      console.log('remove item');
-
-      this._removeItem({
-        value: choice.value,
-        label: choice.label,
-        choiceId: choice.id,
-        groupId: choice.groupId,
-        customProperties: choice.customProperties,
-        placeholder: choice.placeholder,
-        keyCode: choice.keyCode
-      });
+      this._removeItem(choice);
 
       this._triggerChange(choice.value);
     }
@@ -2432,12 +2422,10 @@ function () {
     var lastItem = activeItems[activeItems.length - 1];
     var hasHighlightedItems = activeItems.some(function (item) {
       return item.highlighted;
-    });
-    console.log(hasHighlightedItems); // If editing the last item is allowed and there are not other selected items,
+    }); // If editing the last item is allowed and there are not other selected items,
     // we can edit the item value. Otherwise if we can remove items, remove all selected items
 
     if (this.config.editItems && !hasHighlightedItems && lastItem) {
-      console.log('remove last');
       this.input.value = lastItem.value;
       this.input.setWidth();
 
@@ -2445,7 +2433,11 @@ function () {
 
       this._triggerChange(lastItem.value);
     } else {
-      console.log('remove all');
+      if (!hasHighlightedItems) {
+        // Highlight last item if none already highlighted
+        this.highlightItem(lastItem, false);
+      }
+
       this.removeHighlightedItems(true);
     }
   };
@@ -2670,13 +2662,18 @@ function () {
         ESC_KEY = constants_1.KEY_CODES.ESC_KEY,
         UP_KEY = constants_1.KEY_CODES.UP_KEY,
         DOWN_KEY = constants_1.KEY_CODES.DOWN_KEY,
+        LEFT_KEY = constants_1.KEY_CODES.LEFT_KEY,
+        RIGHT_KEY = constants_1.KEY_CODES.RIGHT_KEY,
         PAGE_UP_KEY = constants_1.KEY_CODES.PAGE_UP_KEY,
         PAGE_DOWN_KEY = constants_1.KEY_CODES.PAGE_DOWN_KEY;
+    var wasRemovalKeyCode = code === BACK_KEY || code === DELETE_KEY;
+    var wasNavigationKeyCode = code === UP_KEY || code === DOWN_KEY || code === LEFT_KEY || code === RIGHT_KEY || code === PAGE_UP_KEY || code === PAGE_DOWN_KEY;
+    var wasSpecialKey = wasRemovalKeyCode || wasNavigationKeyCode || code === ESC_KEY;
 
     if (!this._isTextElement && !hasActiveDropdown && wasAlphaNumericChar) {
       this.showDropdown();
 
-      if (!this.input.isFocussed) {
+      if (!this.input.isFocussed && !wasSpecialKey) {
         /*
           We update the input value with the pressed key as
           the input was not focussed at the time of key press
@@ -2718,15 +2715,15 @@ function () {
 
     var canAddItem = this._canAddItem(activeItems, value);
 
-    var backKey = constants_1.KEY_CODES.BACK_KEY,
-        deleteKey = constants_1.KEY_CODES.DELETE_KEY,
-        escKey = constants_1.KEY_CODES.ESC_KEY,
-        upKey = constants_1.KEY_CODES.UP_KEY,
-        downKey = constants_1.KEY_CODES.DOWN_KEY,
-        leftKey = constants_1.KEY_CODES.LEFT_KEY,
-        rightKey = constants_1.KEY_CODES.RIGHT_KEY,
-        pageUpKey = constants_1.KEY_CODES.PAGE_UP_KEY,
-        pageDownKey = constants_1.KEY_CODES.PAGE_DOWN_KEY; // We are typing into a text input and have a value, we want to show a dropdown
+    var BACK_KEY = constants_1.KEY_CODES.BACK_KEY,
+        DELETE_KEY = constants_1.KEY_CODES.DELETE_KEY,
+        ESC_KEY = constants_1.KEY_CODES.ESC_KEY,
+        UP_KEY = constants_1.KEY_CODES.UP_KEY,
+        DOWN_KEY = constants_1.KEY_CODES.DOWN_KEY,
+        LEFT_KEY = constants_1.KEY_CODES.LEFT_KEY,
+        RIGHT_KEY = constants_1.KEY_CODES.RIGHT_KEY,
+        PAGE_UP_KEY = constants_1.KEY_CODES.PAGE_UP_KEY,
+        PAGE_DOWN_KEY = constants_1.KEY_CODES.PAGE_DOWN_KEY; // We are typing into a text input and have a value, we want to show a dropdown
     // notice. Otherwise hide the dropdown
 
     if (this._isTextElement) {
@@ -2741,9 +2738,9 @@ function () {
         this.hideDropdown(true);
       }
     } else {
-      var wasRemovalKeyCode = code === backKey || code === deleteKey;
-      var wasNavigationKeyCode = code === upKey || code === downKey || code === leftKey || code === rightKey || code === pageUpKey || code === pageDownKey;
-      var wasSpecialKey = wasRemovalKeyCode || wasNavigationKeyCode || code === escKey;
+      var wasRemovalKeyCode = code === BACK_KEY || code === DELETE_KEY;
+      var wasNavigationKeyCode = code === UP_KEY || code === DOWN_KEY || code === LEFT_KEY || code === RIGHT_KEY || code === PAGE_UP_KEY || code === PAGE_DOWN_KEY;
+      var wasSpecialKey = wasRemovalKeyCode || wasNavigationKeyCode || code === ESC_KEY;
       var userHasRemovedValue = wasRemovalKeyCode && target && !target.value;
       var canReactivateChoices = !this._isTextElement && this._isSearching;
       var canSearch = this._canSearch && canAddItem.response;
@@ -3489,7 +3486,6 @@ function () {
 
           var isSelected = shouldPreselect ? true : choice.selected;
           var isDisabled = choice.disabled;
-          console.log(isDisabled, choice);
 
           _this._addChoice({
             value: value,
