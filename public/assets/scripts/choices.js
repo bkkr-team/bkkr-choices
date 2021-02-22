@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.6 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! bkkr-choices v10.0.1-beta.7 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -148,6 +148,7 @@ exports.DEFAULT_CONFIG = {
   removeItemButton: false,
   editItems: false,
   duplicateItemsAllowed: true,
+  inline: true,
   delimiter: ',',
   paste: true,
   searchEnabled: true,
@@ -1751,7 +1752,7 @@ function () {
   Choices.prototype.showDropdown = function (preventInputFocus) {
     var _this = this;
 
-    if (this.dropdown.isActive) {
+    if (this.dropdown.isActive || this.config.inline) {
       return this;
     }
 
@@ -2192,7 +2193,7 @@ function () {
       var shouldRender = renderSelectedChoices === 'auto' ? _this._isSelectOneElement || !choice.selected : true;
 
       if (shouldRender) {
-        var dropdownItem = _this._getTemplate('choice', choice, _this.config.itemSelectText);
+        var dropdownItem = _this._getTemplate('choice', choice, _this.config.itemSelectText, _this.config.inline);
 
         fragment.appendChild(dropdownItem);
       }
@@ -3333,13 +3334,15 @@ function () {
       element: this._getTemplate('containerOuter', this._direction, this._isSelectElement, this._isSelectOneElement, this.config.searchEnabled, this.passedElement.element.type),
       classNames: this.config.classNames,
       type: this.passedElement.element.type,
-      position: this.config.position
+      position: this.config.position,
+      inline: this.config.inline
     });
     this.containerInner = new components_1.Container({
       element: this._getTemplate('containerInner'),
       classNames: this.config.classNames,
       type: this.passedElement.element.type,
-      position: this.config.position
+      position: this.config.position,
+      inline: this.config.inline
     });
     this.input = new components_1.Input({
       element: this._getTemplate('input', this._placeholderValue),
@@ -3356,7 +3359,8 @@ function () {
     this.dropdown = new components_1.Dropdown({
       element: this._getTemplate('dropdown'),
       classNames: this.config.classNames,
-      type: this.passedElement.element.type
+      type: this.passedElement.element.type,
+      inline: this.config.inline
     });
   };
 
@@ -4440,6 +4444,7 @@ function () {
     this.classNames = classNames;
     this.type = type;
     this.isActive = false;
+    this.inline = true;
   }
 
   Object.defineProperty(Dropdown.prototype, "distanceFromTopWindow", {
@@ -4462,6 +4467,10 @@ function () {
 
 
   Dropdown.prototype.show = function () {
+    if (this.inline) {
+      return this;
+    }
+
     this.element.classList.add(this.classNames.activeState);
     this.element.setAttribute('aria-expanded', 'true');
     this.isActive = true;
@@ -4473,6 +4482,10 @@ function () {
 
 
   Dropdown.prototype.hide = function () {
+    if (this.inline) {
+      return this;
+    }
+
     this.element.classList.remove(this.classNames.activeState);
     this.element.setAttribute('aria-expanded', 'false');
     this.isActive = false;
@@ -4511,7 +4524,7 @@ function () {
     this.classNames = classNames;
     this.type = type;
     this.position = position;
-    this.isOpen = false;
+    this.isOpen = this.inline;
     this.isFlipped = false;
     this.isFocussed = false;
     this.isDisabled = false;

@@ -414,6 +414,13 @@ export interface Options {
   editItems: boolean;
 
   /**
+   * Whether the dropdown is inlined.
+   *
+   * @default true
+   */
+  inline: boolean;
+
+  /**
    * Whether each inputted/chosen item should be unique.
    *
    * **Input types affected:** text, select-multiple

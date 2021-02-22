@@ -8,6 +8,7 @@ export default class Container {
   classNames: ClassNames;
   position: Options['position'];
   isOpen: boolean;
+  inline: boolean;
   isFlipped: boolean;
   isFocussed: boolean;
   isDisabled: boolean;
@@ -23,12 +24,13 @@ export default class Container {
     type: PassedElement['type'];
     classNames: ClassNames;
     position: Options['position'];
+    inline: boolean;
   }) {
     this.element = element;
     this.classNames = classNames;
     this.type = type;
     this.position = position;
-    this.isOpen = false;
+    this.isOpen = this.inline;
     this.isFlipped = false;
     this.isFocussed = false;
     this.isDisabled = false;

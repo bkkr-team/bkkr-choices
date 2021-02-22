@@ -48,6 +48,7 @@ export const DEFAULT_CONFIG: Options = {
   removeItemButton: false,
   editItems: false,
   duplicateItemsAllowed: true,
+  inline: true,
   delimiter: ',',
   paste: true,
   searchEnabled: true,

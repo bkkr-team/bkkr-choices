@@ -17,6 +17,7 @@ describe('components/container', () => {
       classNames: DEFAULT_CLASSNAMES,
       position: 'auto',
       type: 'text',
+      inline: true,
     });
   });
 

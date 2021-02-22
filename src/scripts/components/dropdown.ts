@@ -5,6 +5,7 @@ export default class Dropdown {
   type: PassedElement['type'];
   classNames: ClassNames;
   isActive: boolean;
+  inline: boolean;
 
   constructor({
     element,
@@ -14,11 +15,13 @@ export default class Dropdown {
     element: HTMLElement;
     type: PassedElement['type'];
     classNames: ClassNames;
+    inline: boolean;
   }) {
     this.element = element;
     this.classNames = classNames;
     this.type = type;
     this.isActive = false;
+    this.inline = true;
   }
 
   /**
@@ -36,6 +39,10 @@ export default class Dropdown {
    * Show dropdown to user by adding active state class
    */
   show(): this {
+    if (this.inline) {
+      return this;
+    }
+
     this.element.classList.add(this.classNames.activeState);
     this.element.setAttribute('aria-expanded', 'true');
     this.isActive = true;
@@ -47,6 +54,10 @@ export default class Dropdown {
    * Hide dropdown from user
    */
   hide(): this {
+    if (this.inline) {
+      return this;
+    }
+
     this.element.classList.remove(this.classNames.activeState);
     this.element.setAttribute('aria-expanded', 'false');
     this.isActive = false;

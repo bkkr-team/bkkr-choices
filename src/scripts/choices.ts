@@ -456,7 +456,7 @@ class Choices {
   }
 
   showDropdown(preventInputFocus?: boolean): this {
-    if (this.dropdown.isActive) {
+    if (this.dropdown.isActive || this.config.inline) {
       return this;
     }
 
@@ -900,6 +900,7 @@ class Choices {
           'choice',
           choice,
           this.config.itemSelectText,
+          this.config.inline,
         );
 
         fragment.appendChild(dropdownItem);
@@ -2125,6 +2126,7 @@ class Choices {
       classNames: this.config.classNames,
       type: this.passedElement.element.type as PassedElement['type'],
       position: this.config.position,
+      inline: this.config.inline,
     });
 
     this.containerInner = new Container({
@@ -2132,6 +2134,7 @@ class Choices {
       classNames: this.config.classNames,
       type: this.passedElement.element.type as PassedElement['type'],
       position: this.config.position,
+      inline: this.config.inline,
     });
 
     this.input = new Input({
@@ -2153,6 +2156,7 @@ class Choices {
       element: this._getTemplate('dropdown'),
       classNames: this.config.classNames,
       type: this.passedElement.element.type as PassedElement['type'],
+      inline: this.config.inline,
     });
   }
 

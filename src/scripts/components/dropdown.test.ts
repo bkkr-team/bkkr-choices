@@ -14,6 +14,7 @@ describe('components/dropdown', () => {
       element: choicesElement,
       type: 'text',
       classNames: DEFAULT_CLASSNAMES,
+      inline: true,
     });
   });
 
