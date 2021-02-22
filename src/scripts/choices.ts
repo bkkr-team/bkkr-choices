@@ -1197,37 +1197,6 @@ class Choices {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  _testSpecialKey(code: string): boolean {
-    const {
-      BACK_KEY,
-      DELETE_KEY,
-      ESC_KEY,
-      UP_KEY,
-      DOWN_KEY,
-      LEFT_KEY,
-      RIGHT_KEY,
-      PAGE_UP_KEY,
-      PAGE_DOWN_KEY,
-    } = KEY_CODES;
-
-    switch (code) {
-      case ESC_KEY:
-      case LEFT_KEY:
-      case RIGHT_KEY:
-      case UP_KEY:
-      case PAGE_UP_KEY:
-      case DOWN_KEY:
-      case PAGE_DOWN_KEY:
-      case DELETE_KEY:
-      case BACK_KEY:
-        return true;
-      default:
-    }
-
-    return false;
-  }
-
   _handleSearch(value: string): void {
     if (!value || !this.input.isFocussed) {
       return;
@@ -1483,7 +1452,17 @@ class Choices {
     const { value } = this.input;
     const { activeItems } = this._store;
     const canAddItem = this._canAddItem(activeItems, value);
-    const { BACK_KEY: backKey, DELETE_KEY: deleteKey } = KEY_CODES;
+    const {
+      BACK_KEY: backKey,
+      DELETE_KEY: deleteKey,
+      ESC_KEY: escKey,
+      UP_KEY: upKey,
+      DOWN_KEY: downKey,
+      LEFT_KEY: leftKey,
+      RIGHT_KEY: rightKey,
+      PAGE_UP_KEY: pageUpKey,
+      PAGE_DOWN_KEY: pageDownKey,
+    } = KEY_CODES;
 
     // We are typing into a text input and have a value, we want to show a dropdown
     // notice. Otherwise hide the dropdown
@@ -1499,7 +1478,15 @@ class Choices {
       }
     } else {
       const wasRemovalKeyCode = code === backKey || code === deleteKey;
-      const wasSpecialKey = this._testSpecialKey(code);
+      const wasNavigatioKeyCode =
+        code === upKey ||
+        code === downKey ||
+        code === leftKey ||
+        code === rightKey ||
+        code === pageUpKey ||
+        code === pageDownKey;
+      const wasSpecialKey =
+        wasRemovalKeyCode || wasNavigatioKeyCode || code === escKey;
       const userHasRemovedValue =
         wasRemovalKeyCode && target && !(target as HTMLSelectElement).value;
       const canReactivateChoices = !this._isTextElement && this._isSearching;
