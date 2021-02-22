@@ -1048,26 +1048,16 @@ class Choices {
     element?: HTMLElement,
     hasShiftKey = false,
   ): void {
-    console.log(activeItems);
-    console.log(element);
-    console.log(this.config.removeItems);
-    console.log(this._isSelectElement);
-
     if (
       !activeItems ||
       !element ||
       !this.config.removeItems ||
       this._isSelectElement
     ) {
-      console.log('return');
-
       return;
     }
 
-    console.log(this.config.removeItems);
-
     const passedId = element.dataset.id;
-    console.log(passedId);
 
     // We only want to select one item with a click
     // so we deselect any items that aren't the target
@@ -1126,6 +1116,17 @@ class Choices {
 
         this._triggerChange(choice.value);
       }
+    } else if (choice.selected && !choice.disabled) {
+      this._removeItem({
+        value: choice.value,
+        label: choice.label,
+        choiceId: choice.id,
+        groupId: choice.groupId,
+        customProperties: choice.customProperties,
+        placeholder: choice.placeholder,
+        keyCode: choice.keyCode,
+      });
+      this._triggerChange(choice.value);
     }
 
     this.clearInput();
@@ -1138,6 +1139,7 @@ class Choices {
   }
 
   _handleBackspace(activeItems?: Item[]): void {
+    console.log('handleBackspace');
     if (!this.config.removeItems || !activeItems) {
       return;
     }
@@ -1724,8 +1726,6 @@ class Choices {
       const hasShiftKey = event.shiftKey;
       const { activeItems } = this._store;
       const { dataset } = item;
-
-      console.log(dataset);
 
       if ('button' in dataset) {
         this._handleButtonAction(activeItems, item);

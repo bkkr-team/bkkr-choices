@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.9 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! bkkr-choices v10.0.1-beta.10 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2342,7 +2342,13 @@ function () {
       hasShiftKey = false;
     }
 
+    console.log(activeItems);
+    console.log(element);
+    console.log(this.config.removeItems);
+    console.log(this._isSelectElement);
+
     if (!activeItems || !element || !this.config.removeItems || this._isSelectElement) {
+      console.log('return');
       return;
     }
 
@@ -2929,7 +2935,7 @@ function () {
       var hasShiftKey = event.shiftKey;
       var activeItems = this._store.activeItems;
       var dataset = item.dataset;
-      console.log(activeItems, item, hasShiftKey);
+      console.log(dataset);
 
       if ('button' in dataset) {
         this._handleButtonAction(activeItems, item);
