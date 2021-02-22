@@ -711,7 +711,7 @@ class Choices {
   }
 
   clearInput(): this {
-    const shouldSetInputWidth = !this._isSelectOneElement;
+    const shouldSetInputWidth = !this._isSelectElement;
     this.input.clear(shouldSetInputWidth);
 
     if (!this._isTextElement && this._canSearch) {
@@ -1037,7 +1037,7 @@ class Choices {
     this._removeItem(itemToRemove);
     this._triggerChange(itemToRemove.value);
 
-    if (this._isSelectOneElement && this._store.placeholderChoice) {
+    if (this._isSelectElement && this._store.placeholderChoice) {
       this._selectPlaceholderChoice(this._store.placeholderChoice);
     }
   }
@@ -1051,7 +1051,7 @@ class Choices {
       !activeItems ||
       !element ||
       !this.config.removeItems ||
-      this._isSelectOneElement
+      this._isSelectElement
     ) {
       return;
     }
@@ -2243,11 +2243,11 @@ class Choices {
     }
 
     const hasSelectedChoice = choices.some(choice => choice.selected);
-    const firstEnabledChoiceIndex = choices.findIndex(
+    /* const firstEnabledChoiceIndex = choices.findIndex(
       choice => choice.disabled === undefined || !choice.disabled,
-    );
+    ); */
 
-    choices.forEach((choice, index) => {
+    choices.forEach(choice => {
       const { value = '', label, customProperties, placeholder } = choice;
 
       if (this._isSelectElement) {
@@ -2265,9 +2265,8 @@ class Choices {
            * Otherwise we pre-select the first enabled choice in the array ("select-one" only)
            */
           const shouldPreselect =
-            this._isSelectOneElement &&
-            !hasSelectedChoice &&
-            index === firstEnabledChoiceIndex;
+            this._isSelectOneElement && !hasSelectedChoice;
+          /* && index === firstEnabledChoiceIndex; */
 
           const isSelected = shouldPreselect ? true : choice.selected;
           const isDisabled = choice.disabled;

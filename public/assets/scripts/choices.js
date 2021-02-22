@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.3 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! bkkr-choices v10.0.1-beta.4 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2019,7 +2019,7 @@ function () {
   };
 
   Choices.prototype.clearInput = function () {
-    var shouldSetInputWidth = !this._isSelectOneElement;
+    var shouldSetInputWidth = !this._isSelectElement;
     this.input.clear(shouldSetInputWidth);
 
     if (!this._isTextElement && this._canSearch) {
@@ -2329,7 +2329,7 @@ function () {
 
     this._triggerChange(itemToRemove.value);
 
-    if (this._isSelectOneElement && this._store.placeholderChoice) {
+    if (this._isSelectElement && this._store.placeholderChoice) {
       this._selectPlaceholderChoice(this._store.placeholderChoice);
     }
   };
@@ -2341,7 +2341,7 @@ function () {
       hasShiftKey = false;
     }
 
-    if (!activeItems || !element || !this.config.removeItems || this._isSelectOneElement) {
+    if (!activeItems || !element || !this.config.removeItems || this._isSelectElement) {
       return;
     }
 
@@ -3444,10 +3444,11 @@ function () {
     var hasSelectedChoice = choices.some(function (choice) {
       return choice.selected;
     });
-    var firstEnabledChoiceIndex = choices.findIndex(function (choice) {
-      return choice.disabled === undefined || !choice.disabled;
-    });
-    choices.forEach(function (choice, index) {
+    /* const firstEnabledChoiceIndex = choices.findIndex(
+      choice => choice.disabled === undefined || !choice.disabled,
+    ); */
+
+    choices.forEach(function (choice) {
       var _a = choice.value,
           value = _a === void 0 ? '' : _a,
           label = choice.label,
@@ -3468,7 +3469,9 @@ function () {
            *
            * Otherwise we pre-select the first enabled choice in the array ("select-one" only)
            */
-          var shouldPreselect = _this._isSelectOneElement && !hasSelectedChoice && index === firstEnabledChoiceIndex;
+          var shouldPreselect = _this._isSelectOneElement && !hasSelectedChoice;
+          /* && index === firstEnabledChoiceIndex; */
+
           var isSelected = shouldPreselect ? true : choice.selected;
           var isDisabled = choice.disabled;
           console.log(isDisabled, choice);
