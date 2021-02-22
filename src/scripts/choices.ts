@@ -1118,7 +1118,9 @@ class Choices {
       }
     } else {
       this._store.activeItems
-        .filter(item => item.id === choice.id)
+        .filter(item => {
+          return item.choiceId === choice.id;
+        })
         .forEach(item => this._removeItem(item));
       this._triggerChange(choice.value);
     }

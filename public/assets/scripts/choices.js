@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.15 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! bkkr-choices v10.0.1-beta.18 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2363,6 +2363,8 @@ function () {
   };
 
   Choices.prototype._handleChoiceAction = function (activeItems, element) {
+    var _this = this;
+
     if (!activeItems || !element) {
       return;
     } // If we are clicking on an option
@@ -2372,7 +2374,7 @@ function () {
 
     var choice = id && this._store.getChoiceById(id);
 
-    if (!choice) {
+    if (!choice || choice.disabled) {
       return;
     }
 
@@ -2384,7 +2386,7 @@ function () {
       choice: choice
     });
 
-    if (!choice.selected && !choice.disabled) {
+    if (!choice.selected) {
       var canAddItem = this._canAddItem(activeItems, choice.value);
 
       if (canAddItem.response) {
@@ -2400,8 +2402,12 @@ function () {
 
         this._triggerChange(choice.value);
       }
-    } else if (choice.selected && !choice.disabled) {
-      this._removeItem(choice);
+    } else {
+      this._store.activeItems.filter(function (item) {
+        return item.choiceId === choice.id;
+      }).forEach(function (item) {
+        return _this._removeItem(item);
+      });
 
       this._triggerChange(choice.value);
     }
