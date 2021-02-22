@@ -1,5 +1,5 @@
 import { sanitise } from '../lib/utils';
-import { SELECT_ONE_TYPE, SELECT_MULTIPLE_TYPE } from '../constants';
+import { TEXT_TYPE } from '../constants';
 import { PassedElement, ClassNames } from '../interfaces';
 
 export default class Input {
@@ -88,7 +88,7 @@ export default class Input {
     }
   }
 
-  clear(setWidth = true): this {
+  clear(setWidth = this.type === TEXT_TYPE): this {
     if (this.element.value) {
       this.element.value = '';
     }
@@ -120,7 +120,7 @@ export default class Input {
   }
 
   _onInput(): void {
-    if (this.type !== SELECT_ONE_TYPE || this.type !== SELECT_MULTIPLE_TYPE) {
+    if (this.type === TEXT_TYPE) {
       this.setWidth();
     }
   }
