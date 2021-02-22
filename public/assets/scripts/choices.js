@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.8 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! bkkr-choices v10.0.1-beta.9 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -1660,9 +1660,6 @@ function () {
   };
 
   Choices.prototype.unhighlightItem = function (item) {
-    console.log('unhighlight');
-    console.log(item);
-
     if (!item || !item.id) {
       return this;
     }
@@ -2349,7 +2346,9 @@ function () {
       return;
     }
 
-    var passedId = element.dataset.id; // We only want to select one item with a click
+    console.log(this.config.removeItems);
+    var passedId = element.dataset.id;
+    console.log(passedId); // We only want to select one item with a click
     // so we deselect any items that aren't the target
     // unless shift is being pressed
 
@@ -2930,6 +2929,7 @@ function () {
       var hasShiftKey = event.shiftKey;
       var activeItems = this._store.activeItems;
       var dataset = item.dataset;
+      console.log(activeItems, item, hasShiftKey);
 
       if ('button' in dataset) {
         this._handleButtonAction(activeItems, item);
