@@ -1048,12 +1048,19 @@ class Choices {
     element?: HTMLElement,
     hasShiftKey = false,
   ): void {
+    console.log(activeItems);
+    console.log(element);
+    console.log(this.config.removeItems);
+    console.log(this._isSelectElement);
+
     if (
       !activeItems ||
       !element ||
       !this.config.removeItems ||
       this._isSelectElement
     ) {
+      console.log('return');
+
       return;
     }
 
@@ -1718,7 +1725,7 @@ class Choices {
       const { activeItems } = this._store;
       const { dataset } = item;
 
-      console.log(activeItems, item, hasShiftKey);
+      console.log(dataset);
 
       if ('button' in dataset) {
         this._handleButtonAction(activeItems, item);

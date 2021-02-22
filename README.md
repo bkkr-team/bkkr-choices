@@ -2,10 +2,6 @@
 
 ---
 
-### I'm looking for active maintainers for this project as I no longer have the time to support it. Please get in touch if you're interested 👍
-
----
-
 A vanilla, lightweight (~19kb gzipped 🎉), configurable select box/text input plugin. Similar to Select2 and Selectize but without the jQuery dependency.
 
 [Demo](https://joshuajohnson.co.uk/Choices/)
@@ -20,10 +16,6 @@ A vanilla, lightweight (~19kb gzipped 🎉), configurable select box/text input 
 - Clean API
 - Right-to-left support
 - Custom templates
-
----
-
-### Interested in writing your own ES6 JavaScript plugins? Check out [ES6.io](https://ES6.io/friend/JOHNSON) for great tutorials! 💪🏼
 
 ---
 
