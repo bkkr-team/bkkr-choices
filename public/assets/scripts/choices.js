@@ -1,4 +1,4 @@
-/*! choices.js v9.0.1 | © 2019 Josh Johnson | https://github.com/jshjohnson/Choices#readme */
+/*! bkkr-choices v9.0.1 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -214,15 +214,17 @@ exports.ACTION_TYPES = {
   SET_IS_LOADING: 'SET_IS_LOADING'
 };
 exports.KEY_CODES = {
-  BACK_KEY: 46,
-  DELETE_KEY: 8,
-  ENTER_KEY: 13,
-  A_KEY: 65,
-  ESC_KEY: 27,
-  UP_KEY: 38,
-  DOWN_KEY: 40,
-  PAGE_UP_KEY: 33,
-  PAGE_DOWN_KEY: 34
+  BACK_KEY: 'Backspace',
+  DELETE_KEY: 'Delete',
+  ENTER_KEY: 'Enter',
+  A_KEY: 'KeyA',
+  ESC_KEY: 'Escape',
+  UP_KEY: 'ArrowUp',
+  DOWN_KEY: 'ArrowDown',
+  LEFT_KEY: 'ArrowLeft',
+  RIGHT_KEY: 'ArrowRight',
+  PAGE_UP_KEY: 'PageUp',
+  PAGE_DOWN_KEY: 'PageDown'
 };
 exports.TEXT_TYPE = 'text';
 exports.SELECT_ONE_TYPE = 'select-one';
@@ -2641,13 +2643,13 @@ function () {
   };
 
   Choices.prototype._onKeyDown = function (event) {
-    var keyCode = event.keyCode;
+    var code = event.code,
+        key = event.key;
     var activeItems = this._store.activeItems;
     var hasFocusedInput = this.input.isFocussed;
     var hasActiveDropdown = this.dropdown.isActive;
     var hasItems = this.itemList.hasChildren();
-    var keyString = String.fromCharCode(keyCode);
-    var wasAlphaNumericChar = /[a-zA-Z0-9-_ ]/.test(keyString);
+    var wasAlphaNumericChar = /[a-zA-Z0-9-_ ]/.test(key);
     var BACK_KEY = constants_1.KEY_CODES.BACK_KEY,
         DELETE_KEY = constants_1.KEY_CODES.DELETE_KEY,
         ENTER_KEY = constants_1.KEY_CODES.ENTER_KEY,
@@ -2667,11 +2669,11 @@ function () {
           the input was not focussed at the time of key press
           therefore does not have the value of the key.
         */
-        this.input.value += keyString.toLowerCase();
+        this.input.value += key.toLowerCase();
       }
     }
 
-    switch (keyCode) {
+    switch (code) {
       case A_KEY:
         return this._onSelectKey(event, hasItems);
 
@@ -2697,14 +2699,21 @@ function () {
 
   Choices.prototype._onKeyUp = function (_a) {
     var target = _a.target,
-        keyCode = _a.keyCode;
+        code = _a.code;
     var value = this.input.value;
     var activeItems = this._store.activeItems;
 
     var canAddItem = this._canAddItem(activeItems, value);
 
     var backKey = constants_1.KEY_CODES.BACK_KEY,
-        deleteKey = constants_1.KEY_CODES.DELETE_KEY; // We are typing into a text input and have a value, we want to show a dropdown
+        deleteKey = constants_1.KEY_CODES.DELETE_KEY,
+        escKey = constants_1.KEY_CODES.ESC_KEY,
+        upKey = constants_1.KEY_CODES.UP_KEY,
+        downKey = constants_1.KEY_CODES.DOWN_KEY,
+        leftKey = constants_1.KEY_CODES.LEFT_KEY,
+        rightKey = constants_1.KEY_CODES.RIGHT_KEY,
+        pageUpKey = constants_1.KEY_CODES.PAGE_UP_KEY,
+        pageDownKey = constants_1.KEY_CODES.PAGE_DOWN_KEY; // We are typing into a text input and have a value, we want to show a dropdown
     // notice. Otherwise hide the dropdown
 
     if (this._isTextElement) {
@@ -2719,7 +2728,9 @@ function () {
         this.hideDropdown(true);
       }
     } else {
-      var wasRemovalKeyCode = keyCode === backKey || keyCode === deleteKey;
+      var wasRemovalKeyCode = code === backKey || code === deleteKey;
+      var wasNavigatioKeyCode = code === upKey || code === downKey || code === leftKey || code === rightKey || code === pageUpKey || code === pageDownKey;
+      var wasSpecialKey = wasRemovalKeyCode || wasNavigatioKeyCode || code === escKey;
       var userHasRemovedValue = wasRemovalKeyCode && target && !target.value;
       var canReactivateChoices = !this._isTextElement && this._isSearching;
       var canSearch = this._canSearch && canAddItem.response;
@@ -2728,7 +2739,7 @@ function () {
         this._isSearching = false;
 
         this._store.dispatch(choices_1.activateChoices(true));
-      } else if (canSearch) {
+      } else if (canSearch && !wasSpecialKey) {
         this._handleSearch(this.input.value);
       }
     }
@@ -2807,7 +2818,7 @@ function () {
   };
 
   Choices.prototype._onDirectionKey = function (event, hasActiveDropdown) {
-    var keyCode = event.keyCode,
+    var code = event.code,
         metaKey = event.metaKey;
     var downKey = constants_1.KEY_CODES.DOWN_KEY,
         pageUpKey = constants_1.KEY_CODES.PAGE_UP_KEY,
@@ -2816,8 +2827,8 @@ function () {
     if (hasActiveDropdown || this._isSelectOneElement) {
       this.showDropdown();
       this._canSearch = false;
-      var directionInt = keyCode === downKey || keyCode === pageDownKey ? 1 : -1;
-      var skipKey = metaKey || keyCode === pageDownKey || keyCode === pageUpKey;
+      var directionInt = code === downKey || code === pageDownKey ? 1 : -1;
+      var skipKey = metaKey || code === pageDownKey || code === pageUpKey;
       var selectableChoiceIdentifier = '[data-choice-selectable]';
       var nextEl = void 0;
 
@@ -3128,7 +3139,7 @@ function () {
         _f = _a.placeholder,
         placeholder = _f === void 0 ? false : _f,
         _g = _a.keyCode,
-        keyCode = _g === void 0 ? -1 : _g;
+        keyCode = _g === void 0 ? '' : _g;
     var passedValue = typeof value === 'string' ? value.trim() : value;
     var items = this._store.items;
     var passedLabel = label || passedValue;
@@ -3210,7 +3221,7 @@ function () {
         _g = _a.placeholder,
         placeholder = _g === void 0 ? false : _g,
         _h = _a.keyCode,
-        keyCode = _h === void 0 ? -1 : _h;
+        keyCode = _h === void 0 ? '' : _h;
 
     if (typeof value === 'undefined' || value === null) {
       return;
@@ -3577,7 +3588,7 @@ function () {
   };
 
   Choices.prototype._generatePlaceholderValue = function () {
-    if (this._isSelectElement) {
+    if (this._isSelectElement && this.passedElement.placeholderOption) {
       var placeholderOption = this.passedElement.placeholderOption;
       return placeholderOption ? placeholderOption.text : null;
     }
