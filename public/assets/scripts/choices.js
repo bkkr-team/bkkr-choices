@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.1 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! bkkr-choices v10.0.1-beta.3 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2729,8 +2729,9 @@ function () {
       }
     } else {
       var wasRemovalKeyCode = code === backKey || code === deleteKey;
-      var wasNavigatioKeyCode = code === upKey || code === downKey || code === leftKey || code === rightKey || code === pageUpKey || code === pageDownKey;
-      var wasSpecialKey = wasRemovalKeyCode || wasNavigatioKeyCode || code === escKey;
+      var wasNavigationKeyCode = code === upKey || code === downKey || code === leftKey || code === rightKey || code === pageUpKey || code === pageDownKey;
+      var wasSpecialKey = wasRemovalKeyCode || wasNavigationKeyCode || code === escKey;
+      console.log(wasSpecialKey);
       var userHasRemovedValue = wasRemovalKeyCode && target && !target.value;
       var canReactivateChoices = !this._isTextElement && this._isSearching;
       var canSearch = this._canSearch && canAddItem.response;
@@ -3367,7 +3368,7 @@ function () {
 
     this.containerOuter.wrap(this.containerInner.element);
 
-    if (this._isSelectOneElement) {
+    if (this._isSelectElement) {
       this.input.placeholder = this.config.searchPlaceholderValue || '';
     } else if (this._placeholderValue) {
       this.input.placeholder = this._placeholderValue;
@@ -3382,7 +3383,7 @@ function () {
       this.dropdown.element.appendChild(this.choiceList.element);
     }
 
-    if (!this._isSelectOneElement) {
+    if (!this._isSelectElement) {
       this.containerInner.element.appendChild(this.input.element);
     } else if (this.config.searchEnabled) {
       this.dropdown.element.insertBefore(this.input.element, this.dropdown.element.firstChild);

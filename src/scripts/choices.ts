@@ -2164,7 +2164,7 @@ class Choices {
     // Wrapper inner container with outer container
     this.containerOuter.wrap(this.containerInner.element);
 
-    if (this._isSelectOneElement) {
+    if (this._isSelectElement) {
       this.input.placeholder = this.config.searchPlaceholderValue || '';
     } else if (this._placeholderValue) {
       this.input.placeholder = this._placeholderValue;
@@ -2179,7 +2179,7 @@ class Choices {
       this.dropdown.element.appendChild(this.choiceList.element);
     }
 
-    if (!this._isSelectOneElement) {
+    if (!this._isSelectElement) {
       this.containerInner.element.appendChild(this.input.element);
     } else if (this.config.searchEnabled) {
       this.dropdown.element.insertBefore(
