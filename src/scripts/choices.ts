@@ -1197,6 +1197,37 @@ class Choices {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  _testSpecialKey(code: string): boolean {
+    const {
+      BACK_KEY,
+      DELETE_KEY,
+      ESC_KEY,
+      UP_KEY,
+      DOWN_KEY,
+      LEFT_KEY,
+      RIGHT_KEY,
+      PAGE_UP_KEY,
+      PAGE_DOWN_KEY,
+    } = KEY_CODES;
+
+    switch (code) {
+      case ESC_KEY:
+      case LEFT_KEY:
+      case RIGHT_KEY:
+      case UP_KEY:
+      case PAGE_UP_KEY:
+      case DOWN_KEY:
+      case PAGE_DOWN_KEY:
+      case DELETE_KEY:
+      case BACK_KEY:
+        return true;
+      default:
+    }
+
+    return false;
+  }
+
   _handleSearch(value: string): void {
     if (!value || !this.input.isFocussed) {
       return;
@@ -1468,6 +1499,7 @@ class Choices {
       }
     } else {
       const wasRemovalKeyCode = code === backKey || code === deleteKey;
+      const wasSpecialKey = this._testSpecialKey(code);
       const userHasRemovedValue =
         wasRemovalKeyCode && target && !(target as HTMLSelectElement).value;
       const canReactivateChoices = !this._isTextElement && this._isSearching;
@@ -1476,7 +1508,7 @@ class Choices {
       if (userHasRemovedValue && canReactivateChoices) {
         this._isSearching = false;
         this._store.dispatch(activateChoices(true));
-      } else if (canSearch) {
+      } else if (canSearch && !wasSpecialKey) {
         this._handleSearch(this.input.value);
       }
     }
