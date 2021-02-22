@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.10 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! bkkr-choices v10.0.1-beta.12 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2342,19 +2342,11 @@ function () {
       hasShiftKey = false;
     }
 
-    console.log(activeItems);
-    console.log(element);
-    console.log(this.config.removeItems);
-    console.log(this._isSelectElement);
-
     if (!activeItems || !element || !this.config.removeItems || this._isSelectElement) {
-      console.log('return');
       return;
     }
 
-    console.log(this.config.removeItems);
-    var passedId = element.dataset.id;
-    console.log(passedId); // We only want to select one item with a click
+    var passedId = element.dataset.id; // We only want to select one item with a click
     // so we deselect any items that aren't the target
     // unless shift is being pressed
 
@@ -2408,6 +2400,20 @@ function () {
 
         this._triggerChange(choice.value);
       }
+    } else if (choice.selected && !choice.disabled) {
+      console.log('remove item');
+
+      this._removeItem({
+        value: choice.value,
+        label: choice.label,
+        choiceId: choice.id,
+        groupId: choice.groupId,
+        customProperties: choice.customProperties,
+        placeholder: choice.placeholder,
+        keyCode: choice.keyCode
+      });
+
+      this._triggerChange(choice.value);
     }
 
     this.clearInput(); // We want to close the dropdown if we are dealing with a single select box
@@ -2426,10 +2432,12 @@ function () {
     var lastItem = activeItems[activeItems.length - 1];
     var hasHighlightedItems = activeItems.some(function (item) {
       return item.highlighted;
-    }); // If editing the last item is allowed and there are not other selected items,
+    });
+    console.log(hasHighlightedItems); // If editing the last item is allowed and there are not other selected items,
     // we can edit the item value. Otherwise if we can remove items, remove all selected items
 
     if (this.config.editItems && !hasHighlightedItems && lastItem) {
+      console.log('remove last');
       this.input.value = lastItem.value;
       this.input.setWidth();
 
@@ -2437,6 +2445,7 @@ function () {
 
       this._triggerChange(lastItem.value);
     } else {
+      console.log('remove all');
       this.removeHighlightedItems(true);
     }
   };
@@ -2935,7 +2944,6 @@ function () {
       var hasShiftKey = event.shiftKey;
       var activeItems = this._store.activeItems;
       var dataset = item.dataset;
-      console.log(dataset);
 
       if ('button' in dataset) {
         this._handleButtonAction(activeItems, item);

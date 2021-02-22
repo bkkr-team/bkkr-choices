@@ -1117,6 +1117,7 @@ class Choices {
         this._triggerChange(choice.value);
       }
     } else if (choice.selected && !choice.disabled) {
+      console.log('remove item');
       this._removeItem({
         value: choice.value,
         label: choice.label,
@@ -1139,22 +1140,23 @@ class Choices {
   }
 
   _handleBackspace(activeItems?: Item[]): void {
-    console.log('handleBackspace');
     if (!this.config.removeItems || !activeItems) {
       return;
     }
 
     const lastItem = activeItems[activeItems.length - 1];
     const hasHighlightedItems = activeItems.some(item => item.highlighted);
-
+    console.log(hasHighlightedItems);
     // If editing the last item is allowed and there are not other selected items,
     // we can edit the item value. Otherwise if we can remove items, remove all selected items
     if (this.config.editItems && !hasHighlightedItems && lastItem) {
+      console.log('remove last');
       this.input.value = lastItem.value;
       this.input.setWidth();
       this._removeItem(lastItem);
       this._triggerChange(lastItem.value);
     } else {
+      console.log('remove all');
       this.removeHighlightedItems(true);
     }
   }
