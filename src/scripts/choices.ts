@@ -1149,10 +1149,10 @@ class Choices {
       this._removeItem(lastItem);
       this._triggerChange(lastItem.value);
     } else {
-      if (!hasHighlightedItems) {
+      /* if (!hasHighlightedItems) {
         // Highlight last item if none already highlighted
         this.highlightItem(lastItem, false);
-      }
+      } */
       this.removeHighlightedItems(true);
     }
   }
