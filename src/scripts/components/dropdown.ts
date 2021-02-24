@@ -20,7 +20,7 @@ export default class Dropdown {
     this.element = element;
     this.classNames = classNames;
     this.type = type;
-    this.isActive = false;
+    this.isActive = true;
     this.inline = true;
   }
 
