@@ -1149,6 +1149,7 @@ class Choices {
       this._removeItem(lastItem);
       this._triggerChange(lastItem.value);
     } else {
+      /* DEPRECATED */
       /* if (!hasHighlightedItems) {
         // Highlight last item if none already highlighted
         this.highlightItem(lastItem, false);
@@ -1404,12 +1405,11 @@ class Choices {
   }
 
   _onKeyDown(event: KeyboardEvent): void {
-    const { code, key } = event;
+    const { code } = event;
     const { activeItems } = this._store;
     const hasFocusedInput = this.input.isFocussed;
     const hasActiveDropdown = this.dropdown.isActive;
     const hasItems = this.itemList.hasChildren();
-    const wasAlphaNumericChar = /[a-zA-Z0-9-_ ]/.test(key);
 
     const {
       BACK_KEY,
@@ -1419,35 +1419,21 @@ class Choices {
       ESC_KEY,
       UP_KEY,
       DOWN_KEY,
-      LEFT_KEY,
-      RIGHT_KEY,
       PAGE_UP_KEY,
       PAGE_DOWN_KEY,
     } = KEY_CODES;
 
-    const wasRemovalKeyCode = code === BACK_KEY || code === DELETE_KEY;
-    const wasNavigationKeyCode =
-      code === UP_KEY ||
-      code === DOWN_KEY ||
-      code === LEFT_KEY ||
-      code === RIGHT_KEY ||
-      code === PAGE_UP_KEY ||
-      code === PAGE_DOWN_KEY;
-    const wasSpecialKey =
-      wasRemovalKeyCode || wasNavigationKeyCode || code === ESC_KEY;
-
-    if (!this._isTextElement && !hasActiveDropdown && wasAlphaNumericChar) {
+    /* DEPRECATED */
+    /* if (!this._isTextElement && !hasActiveDropdown && wasAlphaNumericChar) {
       this.showDropdown();
 
       if (!this.input.isFocussed && !wasSpecialKey) {
-        /*
-          We update the input value with the pressed key as
-          the input was not focussed at the time of key press
-          therefore does not have the value of the key.
-        */
+        We update the input value with the pressed key as
+        the input was not focussed at the time of key press
+        therefore does not have the value of the key.
         this.input.value += key.toLowerCase();
       }
-    }
+    } */
 
     switch (code) {
       case A_KEY:
