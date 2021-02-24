@@ -1423,7 +1423,11 @@ class Choices {
       PAGE_DOWN_KEY,
     } = KEY_CODES;
 
-    /* DEPRECATED */
+    /*
+     * TODO
+     * Writes out the code of pressed key (eg. 'shift', 'enter')
+     */
+
     /* if (!this._isTextElement && !hasActiveDropdown && wasAlphaNumericChar) {
       this.showDropdown();
 
