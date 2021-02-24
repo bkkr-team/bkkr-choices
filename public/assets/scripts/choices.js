@@ -1,4 +1,4 @@
-/*! bkkr-choices v10.0.1-beta.18 | © 2021 Josh Johnson | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! @bkkr/choices v10.0.1-beta.19 | © 2021 Imre Bekker | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2439,11 +2439,12 @@ function () {
 
       this._triggerChange(lastItem.value);
     } else {
-      if (!hasHighlightedItems) {
+      /* DEPRECATED */
+
+      /* if (!hasHighlightedItems) {
         // Highlight last item if none already highlighted
         this.highlightItem(lastItem, false);
-      }
-
+      } */
       this.removeHighlightedItems(true);
     }
   };
@@ -2654,13 +2655,11 @@ function () {
   };
 
   Choices.prototype._onKeyDown = function (event) {
-    var code = event.code,
-        key = event.key;
+    var code = event.code;
     var activeItems = this._store.activeItems;
     var hasFocusedInput = this.input.isFocussed;
     var hasActiveDropdown = this.dropdown.isActive;
     var hasItems = this.itemList.hasChildren();
-    var wasAlphaNumericChar = /[a-zA-Z0-9-_ ]/.test(key);
     var BACK_KEY = constants_1.KEY_CODES.BACK_KEY,
         DELETE_KEY = constants_1.KEY_CODES.DELETE_KEY,
         ENTER_KEY = constants_1.KEY_CODES.ENTER_KEY,
@@ -2668,26 +2667,22 @@ function () {
         ESC_KEY = constants_1.KEY_CODES.ESC_KEY,
         UP_KEY = constants_1.KEY_CODES.UP_KEY,
         DOWN_KEY = constants_1.KEY_CODES.DOWN_KEY,
-        LEFT_KEY = constants_1.KEY_CODES.LEFT_KEY,
-        RIGHT_KEY = constants_1.KEY_CODES.RIGHT_KEY,
         PAGE_UP_KEY = constants_1.KEY_CODES.PAGE_UP_KEY,
         PAGE_DOWN_KEY = constants_1.KEY_CODES.PAGE_DOWN_KEY;
-    var wasRemovalKeyCode = code === BACK_KEY || code === DELETE_KEY;
-    var wasNavigationKeyCode = code === UP_KEY || code === DOWN_KEY || code === LEFT_KEY || code === RIGHT_KEY || code === PAGE_UP_KEY || code === PAGE_DOWN_KEY;
-    var wasSpecialKey = wasRemovalKeyCode || wasNavigationKeyCode || code === ESC_KEY;
+    /*
+     * TODO
+     * Writes out the code of pressed key (eg. 'shift', 'enter')
+     */
 
-    if (!this._isTextElement && !hasActiveDropdown && wasAlphaNumericChar) {
+    /* if (!this._isTextElement && !hasActiveDropdown && wasAlphaNumericChar) {
       this.showDropdown();
-
-      if (!this.input.isFocussed && !wasSpecialKey) {
-        /*
-          We update the input value with the pressed key as
-          the input was not focussed at the time of key press
-          therefore does not have the value of the key.
-        */
+           if (!this.input.isFocussed && !wasSpecialKey) {
+        We update the input value with the pressed key as
+        the input was not focussed at the time of key press
+        therefore does not have the value of the key.
         this.input.value += key.toLowerCase();
       }
-    }
+    } */
 
     switch (code) {
       case A_KEY:
@@ -4456,7 +4451,7 @@ function () {
     this.element = element;
     this.classNames = classNames;
     this.type = type;
-    this.isActive = false;
+    this.isActive = true;
     this.inline = true;
   }
 
