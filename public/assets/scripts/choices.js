@@ -1,4 +1,4 @@
-/*! @bkkr/choices v10.0.1-beta.19 | © 2021 Imre Bekker | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! @bkkr/choices v10.0.1-beta.21 | © 2021 Imre Bekker | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2415,8 +2415,8 @@ function () {
     this.clearInput(); // We want to close the dropdown if we are dealing with a single select box
 
     if (hasActiveDropdown && this._isSelectOneElement) {
-      this.hideDropdown(true);
-      this.containerOuter.focus();
+      this.hideDropdown(true); // DEPRECATED
+      // this.containerOuter.focus();
     }
   };
 
@@ -2438,15 +2438,17 @@ function () {
       this._removeItem(lastItem);
 
       this._triggerChange(lastItem.value);
-    } else {
-      /* DEPRECATED */
+    }
+    /* DEPRECATED */
 
-      /* if (!hasHighlightedItems) {
+    /* else {
+      if (!hasHighlightedItems) {
         // Highlight last item if none already highlighted
         this.highlightItem(lastItem, false);
-      } */
+      }
       this.removeHighlightedItems(true);
-    }
+    } */
+
   };
 
   Choices.prototype._startLoading = function () {
@@ -4532,7 +4534,8 @@ function () {
     this.classNames = classNames;
     this.type = type;
     this.position = position;
-    this.isOpen = this.inline;
+    this.inline = true;
+    this.isOpen = true;
     this.isFlipped = false;
     this.isFocussed = false;
     this.isDisabled = false;

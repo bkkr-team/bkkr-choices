@@ -1130,7 +1130,8 @@ class Choices {
     // We want to close the dropdown if we are dealing with a single select box
     if (hasActiveDropdown && this._isSelectOneElement) {
       this.hideDropdown(true);
-      this.containerOuter.focus();
+      // DEPRECATED
+      // this.containerOuter.focus();
     }
   }
 
@@ -1148,14 +1149,15 @@ class Choices {
       this.input.setWidth();
       this._removeItem(lastItem);
       this._triggerChange(lastItem.value);
-    } else {
-      /* DEPRECATED */
-      /* if (!hasHighlightedItems) {
+    }
+    /* DEPRECATED */
+    /* else {
+      if (!hasHighlightedItems) {
         // Highlight last item if none already highlighted
         this.highlightItem(lastItem, false);
-      } */
+      }
       this.removeHighlightedItems(true);
-    }
+    } */
   }
 
   _startLoading(): void {

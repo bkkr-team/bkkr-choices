@@ -30,7 +30,8 @@ export default class Container {
     this.classNames = classNames;
     this.type = type;
     this.position = position;
-    this.isOpen = this.inline;
+    this.inline = true;
+    this.isOpen = true;
     this.isFlipped = false;
     this.isFocussed = false;
     this.isDisabled = false;
