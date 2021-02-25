@@ -1,4 +1,4 @@
-/*! @bkkr/choices v10.0.1-beta.21 | © 2021 Imre Bekker | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! @bkkr/choices v10.0.1-beta.22 | © 2021 Imre Bekker | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -1990,6 +1990,7 @@ function () {
         });
       } else {
         var choice = groupOrChoice;
+        console.log(choice.selected);
 
         _this._addChoice({
           value: choice[value],
@@ -3241,7 +3242,9 @@ function () {
     } // Generate unique id
 
 
-    var choices = this._store.choices;
+    var _j = this._store,
+        choices = _j.choices,
+        activeItems = _j.activeItems;
     var choiceLabel = label || value;
     var choiceId = choices ? choices.length + 1 : 1;
     var choiceElementId = this._baseId + "-" + this._idNames.itemChoice + "-" + choiceId;
@@ -3259,6 +3262,8 @@ function () {
     }));
 
     if (isSelected) {
+      console.log(activeItems);
+
       this._addItem({
         value: value,
         label: choiceLabel,
@@ -3267,6 +3272,8 @@ function () {
         placeholder: placeholder,
         keyCode: keyCode
       });
+
+      console.log(activeItems);
     }
   };
 
@@ -3456,13 +3463,6 @@ function () {
       choices.sort(this.config.sorter);
     }
 
-    var hasSelectedChoice = choices.some(function (choice) {
-      return choice.selected;
-    });
-    /* const firstEnabledChoiceIndex = choices.findIndex(
-      choice => choice.disabled === undefined || !choice.disabled,
-    ); */
-
     choices.forEach(function (choice) {
       var _a = choice.value,
           value = _a === void 0 ? '' : _a,
@@ -3478,16 +3478,7 @@ function () {
             id: choice.id || null
           });
         } else {
-          /**
-           * If there is a selected choice already or the choice is not the first in
-           * the array, add each choice normally.
-           *
-           * Otherwise we pre-select the first enabled choice in the array ("select-one" only)
-           */
-          var shouldPreselect = _this._isSelectOneElement && !hasSelectedChoice;
-          /* && index === firstEnabledChoiceIndex; */
-
-          var isSelected = shouldPreselect ? true : choice.selected;
+          var isSelected = choice.selected;
           var isDisabled = choice.disabled;
 
           _this._addChoice({

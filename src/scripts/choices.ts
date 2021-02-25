@@ -2256,11 +2256,6 @@ class Choices {
       choices.sort(this.config.sorter);
     }
 
-    const hasSelectedChoice = choices.some(choice => choice.selected);
-    /* const firstEnabledChoiceIndex = choices.findIndex(
-      choice => choice.disabled === undefined || !choice.disabled,
-    ); */
-
     choices.forEach(choice => {
       const { value = '', label, customProperties, placeholder } = choice;
 
@@ -2272,17 +2267,7 @@ class Choices {
             id: choice.id || null,
           });
         } else {
-          /**
-           * If there is a selected choice already or the choice is not the first in
-           * the array, add each choice normally.
-           *
-           * Otherwise we pre-select the first enabled choice in the array ("select-one" only)
-           */
-          const shouldPreselect =
-            this._isSelectOneElement && !hasSelectedChoice;
-          /* && index === firstEnabledChoiceIndex; */
-
-          const isSelected = shouldPreselect ? true : choice.selected;
+          const isSelected = choice.selected;
           const isDisabled = choice.disabled;
 
           this._addChoice({
