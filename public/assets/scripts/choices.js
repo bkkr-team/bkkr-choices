@@ -1,4 +1,4 @@
-/*! @bkkr/choices v10.0.1-beta.22 | © 2021 Imre Bekker | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! @bkkr/choices v10.0.1-beta.23 | © 2021 Imre Bekker | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
