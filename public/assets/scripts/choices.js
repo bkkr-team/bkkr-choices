@@ -1990,7 +1990,6 @@ function () {
         });
       } else {
         var choice = groupOrChoice;
-        console.log(choice.selected);
 
         _this._addChoice({
           value: choice[value],
@@ -3242,9 +3241,7 @@ function () {
     } // Generate unique id
 
 
-    var _j = this._store,
-        choices = _j.choices,
-        activeItems = _j.activeItems;
+    var choices = this._store.choices;
     var choiceLabel = label || value;
     var choiceId = choices ? choices.length + 1 : 1;
     var choiceElementId = this._baseId + "-" + this._idNames.itemChoice + "-" + choiceId;
@@ -3262,8 +3259,6 @@ function () {
     }));
 
     if (isSelected) {
-      console.log(activeItems);
-
       this._addItem({
         value: value,
         label: choiceLabel,
@@ -3272,8 +3267,6 @@ function () {
         placeholder: placeholder,
         keyCode: keyCode
       });
-
-      console.log(activeItems);
     }
   };
 
