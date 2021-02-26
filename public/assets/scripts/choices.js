@@ -1,4 +1,4 @@
-/*! @bkkr/choices v10.0.1-beta.23 | © 2021 Imre Bekker | https://github.com/bkkr-team/bkkr-choices#readme */
+/*! @bkkr/choices v10.0.1-beta.26 | © 2021 Imre Bekker | https://github.com/bkkr-team/bkkr-choices#readme */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2438,17 +2438,9 @@ function () {
       this._removeItem(lastItem);
 
       this._triggerChange(lastItem.value);
-    }
-    /* DEPRECATED */
-
-    /* else {
-      if (!hasHighlightedItems) {
-        // Highlight last item if none already highlighted
-        this.highlightItem(lastItem, false);
-      }
+    } else {
       this.removeHighlightedItems(true);
-    } */
-
+    }
   };
 
   Choices.prototype._startLoading = function () {
@@ -2719,14 +2711,7 @@ function () {
     var canAddItem = this._canAddItem(activeItems, value);
 
     var BACK_KEY = constants_1.KEY_CODES.BACK_KEY,
-        DELETE_KEY = constants_1.KEY_CODES.DELETE_KEY,
-        ESC_KEY = constants_1.KEY_CODES.ESC_KEY,
-        UP_KEY = constants_1.KEY_CODES.UP_KEY,
-        DOWN_KEY = constants_1.KEY_CODES.DOWN_KEY,
-        LEFT_KEY = constants_1.KEY_CODES.LEFT_KEY,
-        RIGHT_KEY = constants_1.KEY_CODES.RIGHT_KEY,
-        PAGE_UP_KEY = constants_1.KEY_CODES.PAGE_UP_KEY,
-        PAGE_DOWN_KEY = constants_1.KEY_CODES.PAGE_DOWN_KEY; // We are typing into a text input and have a value, we want to show a dropdown
+        DELETE_KEY = constants_1.KEY_CODES.DELETE_KEY; // We are typing into a text input and have a value, we want to show a dropdown
     // notice. Otherwise hide the dropdown
 
     if (this._isTextElement) {
@@ -2742,8 +2727,6 @@ function () {
       }
     } else {
       var wasRemovalKeyCode = code === BACK_KEY || code === DELETE_KEY;
-      var wasNavigationKeyCode = code === UP_KEY || code === DOWN_KEY || code === LEFT_KEY || code === RIGHT_KEY || code === PAGE_UP_KEY || code === PAGE_DOWN_KEY;
-      var wasSpecialKey = wasRemovalKeyCode || wasNavigationKeyCode || code === ESC_KEY;
       var userHasRemovedValue = wasRemovalKeyCode && target && !target.value;
       var canReactivateChoices = !this._isTextElement && this._isSearching;
       var canSearch = this._canSearch && canAddItem.response;
@@ -2752,7 +2735,7 @@ function () {
         this._isSearching = false;
 
         this._store.dispatch(choices_1.activateChoices(true));
-      } else if (canSearch && !wasSpecialKey) {
+      } else if (canSearch) {
         this._handleSearch(this.input.value);
       }
     }

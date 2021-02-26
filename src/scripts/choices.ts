@@ -1149,15 +1149,9 @@ class Choices {
       this.input.setWidth();
       this._removeItem(lastItem);
       this._triggerChange(lastItem.value);
-    }
-    /* DEPRECATED */
-    /* else {
-      if (!hasHighlightedItems) {
-        // Highlight last item if none already highlighted
-        this.highlightItem(lastItem, false);
-      }
+    } else {
       this.removeHighlightedItems(true);
-    } */
+    }
   }
 
   _startLoading(): void {
@@ -1464,17 +1458,7 @@ class Choices {
     const { value } = this.input;
     const { activeItems } = this._store;
     const canAddItem = this._canAddItem(activeItems, value);
-    const {
-      BACK_KEY,
-      DELETE_KEY,
-      ESC_KEY,
-      UP_KEY,
-      DOWN_KEY,
-      LEFT_KEY,
-      RIGHT_KEY,
-      PAGE_UP_KEY,
-      PAGE_DOWN_KEY,
-    } = KEY_CODES;
+    const { BACK_KEY, DELETE_KEY } = KEY_CODES;
 
     // We are typing into a text input and have a value, we want to show a dropdown
     // notice. Otherwise hide the dropdown
@@ -1490,15 +1474,6 @@ class Choices {
       }
     } else {
       const wasRemovalKeyCode = code === BACK_KEY || code === DELETE_KEY;
-      const wasNavigationKeyCode =
-        code === UP_KEY ||
-        code === DOWN_KEY ||
-        code === LEFT_KEY ||
-        code === RIGHT_KEY ||
-        code === PAGE_UP_KEY ||
-        code === PAGE_DOWN_KEY;
-      const wasSpecialKey =
-        wasRemovalKeyCode || wasNavigationKeyCode || code === ESC_KEY;
       const userHasRemovedValue =
         wasRemovalKeyCode && target && !(target as HTMLSelectElement).value;
       const canReactivateChoices = !this._isTextElement && this._isSearching;
@@ -1507,7 +1482,7 @@ class Choices {
       if (userHasRemovedValue && canReactivateChoices) {
         this._isSearching = false;
         this._store.dispatch(activateChoices(true));
-      } else if (canSearch && !wasSpecialKey) {
+      } else if (canSearch) {
         this._handleSearch(this.input.value);
       }
     }
